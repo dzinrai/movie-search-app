@@ -1,0 +1,43 @@
+$fa-font-path: "/webfonts";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/regular";
+body {
+    font-family: Verdana, sans-serif;
+    background-color: rgb(19, 2, 2);
+}
+.swiper-container {
+    width: 80vw;
+    //height: 300px;
+}
+.movie-card {
+    display: flex;
+    flex-direction: column;
+    color: #ffffff;
+    text-align: center;
+    padding: 0 5px;
+}
+.movie-card_title {
+    min-height: 38px;
+    max-height: 38px;
+    margin: 4px 0 10px;
+    overflow: hidden;
+}
+.movie-card_rate {
+    margin: 4px 0 10px;
+}
+.movie-card_rate::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f005';
+    color: #dbdf0f;
+    padding-right: 2px;
+}
+
+.movie-card_year {
+    margin: 4px 0 10px;
+}
+.movie-card_poster {
+    width: 100%;
+    max-height: 426px;
+}
