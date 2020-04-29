@@ -1,27 +1,114 @@
+@import "~bootstrap/scss/bootstrap";
 $fa-font-path: "/webfonts";
 @import "./node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "./node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "./node_modules/@fortawesome/fontawesome-free/scss/regular";
+:root {
+    --themeColor: #fcf836;
+    --stageColor: #ffffff;
+    --secondaryColor: #faea5b;
+    --thirdColor: #000000;
+    --mainText: #05070a;
+    --activeColor: #3b58fa;
+    --secondaryActiveColor: #ffffff;
+}
+.rootDark {
+    --themeColor: #011e38;
+    --stageColor: #07001f;
+    --secondaryColor: #042b30;
+    --thirdColor: #ffffff;
+    --mainText: #919191;
+    --activeColor: #05070a;
+    --secondaryActiveColor: #07001f;
+}
 body {
     font-family: Verdana, sans-serif;
-    background-color: rgb(19, 2, 2);
+    background-color: var(--stageColor);
+    position: relative;
+    margin: 0;
+    transition: background-color .3s;
 }
+.hidden {
+    visibility: hidden;
+    position: absolute;
+}
+.header {
+    position: relative;
+    padding: 10px;
+    top: 0;
+    width: 100%;
+    min-height: 30px;
+    box-sizing: border-box;
+    max-width: unset;
+}
+.theme__switcher {
+    height: 50px;
+    width: 50px;
+    padding: 3px 3px 5px 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    background-color: var(--thirdColor);
+    border: none;
+    border-radius: 0;
+    border-bottom-left-radius: 6px;
+    outline: none;
+}
+.theme__switcher:focus {
+    outline: none;
+    box-shadow: 0 0 0 0;
+}
+.theme__switcher::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f185';
+    color: var(--secondaryActiveColor);
+    font-size: 30px;
+}
+form {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.search__input {
+    display: inline-block;
+    width: 70vw;
+    height: 30px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+.search__btn {
+    flex: 0 1 10%;
+    cursor: pointer;
+    height: 30px;
+    border: none;
+    box-sizing: border-box;
+    line-height: 19px;
+    background-color: var(--activeColor);
+    color: var(--mainText);
+}
+
 .swiper-container {
     width: 80vw;
     //height: 300px;
 }
+//
 .movie-card {
     display: flex;
     flex-direction: column;
-    color: #ffffff;
+    color: var(--mainText);
     text-align: center;
     padding: 0 5px;
 }
 .movie-card_title {
-    min-height: 38px;
-    max-height: 38px;
-    margin: 4px 0 10px;
+    min-height: 43px;
+    max-height: 43px;
+    margin: 0 0 10px;
     overflow: hidden;
+    box-sizing: border-box;
+    font-weight: bold;
 }
 .movie-card_rate {
     margin: 4px 0 10px;

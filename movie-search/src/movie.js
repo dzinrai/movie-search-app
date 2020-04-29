@@ -11,8 +11,8 @@ export default class Movie {
         this.container = create('div', 'movie-card');
         this.nameContainer = create('span', 'movie-card_title', this.title, this.container);
         this.posterContainer = create('img', 'movie-card_poster', null, this.container, ['src', this.poster]);
-        this.rateContainer = create('span', 'movie-card_rate', this.rate, this.container);
         this.yearContainer = create('span', 'movie-card_year', this.year, this.container);
+        this.rateContainer = create('span', 'movie-card_rate', this.rate, this.container);
     }
 
     update(rate) {

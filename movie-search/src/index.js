@@ -2,6 +2,7 @@
 import regeneratorRuntime from 'regenerator-runtime';
 import Swiper from 'swiper';
 import Movie from './movie.js';
+import changeTheme from './theme.js';
 
 const mySwiper = new Swiper('.swiper-container', {
     // Optional parameters
@@ -34,8 +35,14 @@ const mySwiper = new Swiper('.swiper-container', {
     },
 });
 mySwiper.init();
-document.getElementById('bt').addEventListener('click', () => {
 
+let theme = localStorage.getItem('theme');
+theme = !theme ? changeTheme('light') : changeTheme(theme);
+document.getElementById('switcher').addEventListener('click', () => {
+    if (theme === 'dark') theme = 'light';
+    else theme = 'dark';
+    changeTheme(theme);
+    localStorage.setItem('theme', theme);
 });
 // http://www.omdbapi.com/?i=tt3896198&apikey=4679477d
 // http://img.omdbapi.com/?i=tt3896198&apikey=4679477d
