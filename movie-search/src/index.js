@@ -1,99 +1,53 @@
 // eslint-disable-next-line no-unused-vars
 import regeneratorRuntime from 'regenerator-runtime';
-import Swiper from 'swiper';
-import Movie from './movie.js';
-import changeTheme from './theme.js';
+import './theme.js';
+import keyboard from './modules/keyboardInit.js';
+import create from './modules/create.js';
+import getMovies from './getMovies.js';
+import mySwiper from './swiperInit.js';
+import toggleClass from './toggleClass.js';
 
-const mySwiper = new Swiper('.swiper-container', {
-    // Optional parameters
-    direction: 'horizontal',
-    updateOnWindowResize: true,
-    slidesPerView: 4,
-    loop: false,
-    autoHeight: true,
+const keyboardSwitch = document.getElementsByClassName('keyboard__activation ')[0];
+const blurWindow = create('div', 'background__flow hidden', null, document.body);
+let inputState = false;
 
-    // If we need pagination
-    pagination: {
-        el: '.swiper-pagination',
-        type: 'bullets',
-    },
-
-    // Navigation arrows
-    navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-    },
-
-    // And if we need scrollbar
-    scrollbar: {
-        el: '.swiper-scrollbar',
-        hide: true,
-        snapOnRelease: true,
-    },
-    lazy: {
-        loadPrevNext: true,
-    },
+function toggleKeyboard() {
+    inputState = !inputState;
+    keyboard.active = !keyboard.active;
+    toggleClass(keyboard.domElement, 'hidden');
+    toggleClass(keyboard.domElement, 'appear-from-top');
+    toggleClass(blurWindow, 'hidden');
+}
+keyboardSwitch.addEventListener('click', () => {
+    toggleKeyboard();
 });
-mySwiper.init();
-
-let theme = localStorage.getItem('theme');
-theme = !theme ? changeTheme('light') : changeTheme(theme);
-document.getElementById('switcher').addEventListener('click', () => {
-    if (theme === 'dark') theme = 'light';
-    else theme = 'dark';
-    changeTheme(theme);
-    localStorage.setItem('theme', theme);
+blurWindow.addEventListener('click', () => {
+    toggleKeyboard();
 });
+
+
 // http://www.omdbapi.com/?i=tt3896198&apikey=4679477d
 // http://img.omdbapi.com/?i=tt3896198&apikey=4679477d
-const movies = [];
+let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
+let searchLine = 'dream';
+movieSlides.push(getMovies(searchLine, 1));
 
-async function getMovieRating(imdbID, movie, index) {
-    const url = `https://www.omdbapi.com/?i=${imdbID}&apikey=4679477d`;
-    const g = localStorage.getItem(imdbID);
-    if (g) {
-        const data = JSON.parse(g);
-        movie.update(data.imdbRating);
-        mySwiper.update();
-        return null;
-    }
-    return fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-            localStorage.setItem(imdbID, JSON.stringify(data));
-            if (movie) {
-                console.log('movie=', movie, 'rate=', data.imdbRating, data);
-                movie.update(data.imdbRating);
-            } else console.log(data);
-            mySwiper.update();
-        });
-}
-function createSlides(data) {
-    data.Search.slice(0, 4).forEach((searchedMovie, index) => {
-        mySwiper.addSlide(index, '<div class="swiper-slide"></div>');
-        mySwiper.update();
-        const movie = new Movie(searchedMovie.Title, searchedMovie.Year, null, searchedMovie.Poster);
-        getMovieRating(searchedMovie.imdbID, movie, index);
-        movie.render(mySwiper.slides[index]);
-        movies.push(movie);
-    });
-    mySwiper.update();
-    console.log(data);
-}
-function getMovieTitle(search, page) {
-    const url = `https://www.omdbapi.com/?s=${search}&page=${page}&apikey=4679477d`;
-    const g = localStorage.getItem(search);
-    if (g) {
-        const data = JSON.parse(g);
-        createSlides(data);
-        return null;
-    }
-    return fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-            localStorage.setItem(search, JSON.stringify(data));
-            createSlides(data);
-        });
-}
+const input = document.querySelector('#searchInput');
+const searchBtn = document.querySelector('.search__btn');
+input.focus();
+searchBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    console.log(input.value);
+    mySwiper.removeAllSlides();
+    movieSlides = [];
+    searchLine = String(input.value);
+    movieSlides.push(getMovies(searchLine, 1));
+});
 
-getMovieTitle('dream', 1);
+mySwiper.on('slideChange', () => {
+    console.log('slide changed', mySwiper.activeIndex, ' total slades = ', mySwiper.slides.length);
+    if (mySwiper.activeIndex === mySwiper.slides.length - 6) {
+        const nextPage = [...Object.values(movieSlides)].length + 1;
+        movieSlides.push(getMovies(searchLine, nextPage));
+    }
+});
