@@ -29,7 +29,7 @@ module.exports = (env, options) => {
                     }
                   }
                 }, {
-                    test: /\.scss$/,
+                    test: /\.scss|css$/,
                     use: [
                         MiniCssExtractPlugin.loader, 'css-loader', {
                             loader: 'postcss-loader', // Run post css actions
@@ -57,7 +57,7 @@ module.exports = (env, options) => {
                     loader: 'html-loader',
                 },{
                     test: /\.css$/,
-                    use: ['style-loader', 'css-loader']
+                    use: [MiniCssExtractPlugin.loader, 'css-loader']
                 }
             ]
         },
@@ -65,6 +65,18 @@ module.exports = (env, options) => {
             contentBase: path.join(__dirname, 'dist'),
             compress: true,
             port: 9000
+        },
+        optimization: {
+            splitChunks: {
+              cacheGroups: {
+                styles: {
+                  name: 'styles',
+                  test: /\.css$/,
+                  chunks: 'all',
+                  enforce: true,
+                },
+              },
+            },
         },
         plugins: [
             new CleanWebpackPlugin(),
