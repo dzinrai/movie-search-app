@@ -1,0 +1,202 @@
+.keyboard__container {
+    position: relative;
+    z-index: 10;
+    width: 80vw;
+    min-width: 736px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #500e6f;
+    padding: 3px 6px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 3px solid #370350;
+}
+.absolute_holder {
+    position: absolute;
+    top: 30px;
+}
+@media (min-width: 1200px) {
+    div.keyboard__container {
+        max-width: 810px;
+    }
+}
+@media (max-width: 1020px) {
+    .keyboard__container {
+        width: 100%;
+        max-width: unset;
+        min-width: unset;
+    }
+    .absolute_holder {
+        position: absolute;
+        width: 100%;
+        max-width: 100vw;
+        padding: 0;
+    }
+}
+@media (max-width: 576px) {
+    .absolute_holder {
+        top: 20vh;
+    }
+}
+.keyboard__row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+.keyboard__button {
+    position: relative;
+    max-width: 40px;
+    padding: 7px 10px 7px;
+    margin: 3px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1.1em;
+    outline: none;
+    color: #d2d2d2;
+    background-color: #0d0b0b;
+    cursor: pointer;
+    box-shadow: 0px 0px 3px 1px #dd2424;
+    transition: all 0.3s;
+    flex: 1 0 5%;
+}
+.worker-type {
+    flex: 1 0 10%;
+}
+.keyboard__button:active,
+.keyboard__button.active {
+    color: #0d0b0b;
+    background-color: cornsilk;
+    transform: scale(0.9);
+    box-shadow: none;
+    transition: all 0.2s;
+}
+.button__tab {
+    flex: 1 0 10%;
+}
+.button__space {
+    flex: 1 0 30%;
+}
+.button__backspace {
+    font-size: 15px;
+    flex: 1 0 5%;
+    font-weight: bold;
+}
+.button__enter {
+    flex: 1 0 5%;
+}
+/*.button__shiftright*/
+.button__arrowup,
+.button__arrowleft,
+.button__arrowright,
+.button__arrowdown {
+    flex: 0 1 2%;
+    min-width: 40px;
+    max-width: 40px;
+    font-size: 10px;
+}
+.button__arrowup span,
+.button__arrowleft span,
+.button__arrowright span,
+.button__arrowdown span {
+    visibility: hidden;
+}
+.button__arrowup::before,
+.button__arrowleft::before,
+.button__arrowright::before,
+.button__arrowdown::before {
+    position: absolute;
+    display: block;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../img/arrow.png);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 10px;
+}
+.button__arrowleft::before {
+    transform: rotate(-90deg);
+}
+.button__arrowright::before {
+    transform: rotate(90deg);
+}
+.button__arrowdown::before {
+    transform: rotate(180deg);
+    background-size: 20px;
+    background-position: 10px 9px;
+}
+.info {
+    position: absolute;
+    top: 0;
+    max-width: 200px;
+    margin: 10px auto 2px;
+    text-align: center;
+    font-size: 30px;
+    color: rgb(218, 196, 6);
+    background-color: #500e6f;
+    padding: 10px;
+    border-radius: 5px;
+    border: 3px solid #370350;
+}
+.info span {
+    display: block;
+}
+.info span:last-child {
+    font-size: 25px;
+    color: rgb(179, 161, 3);
+}
+.keyboard__button span:last-child {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    font-size: 0.6em;
+    opacity: 0.4;
+}
+.worker-type {
+    max-width: unset;
+    padding-top: 7px;
+}
+
+@media (max-width: 1020px) {
+    .keyboard__button {
+        padding: 5px 0.1% 7px;
+    }
+}
+@media (min-width: 768px) {
+    .keyboard__button:not(.button__space) {
+        max-width: 20%;
+    }
+}
+@media (min-width: 1200px) {
+    .keyboard__button:not(.button__space) {
+        max-width: 15%;
+    }
+    .keyboard__button:not(.worker-type) {
+        max-width: 47px;
+    }
+}
+@media (max-width: 576px) {
+    
+    .keyboard__button {
+        flex: 1 0 4%;
+    }
+    .keyboard__button span:first-child {
+        font-size: 0.7rem;
+    }
+    .keyboard__button.worker-type {
+        font-size: 0.5rem;
+    }
+    .button__arrowup::before,
+    .button__arrowleft::before,
+    .button__arrowright::before,
+    .button__arrowdown::before {
+        background-position: 50%;
+    }
+}
+
+
