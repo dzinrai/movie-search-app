@@ -23,7 +23,6 @@ export default async function createSlides(data) {
         );
         slide.render();
         slides.push(slide);
-        console.log(slide);
     });
     mySwiper.update();
     return slides;

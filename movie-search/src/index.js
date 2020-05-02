@@ -37,7 +37,6 @@ const searchBtn = document.querySelector('.search__btn');
 input.focus();
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log(input.value);
     mySwiper.removeAllSlides();
     movieSlides = [];
     searchLine = String(input.value);
@@ -46,7 +45,7 @@ searchBtn.addEventListener('click', (e) => {
 
 mySwiper.on('slideChange', () => {
     console.log('slide changed', mySwiper.activeIndex, ' total slades = ', mySwiper.slides.length);
-    if (mySwiper.activeIndex === mySwiper.slides.length - 6) {
+    if (mySwiper.activeIndex === mySwiper.slides.length - 8) {
         const nextPage = [...Object.values(movieSlides)].length + 1;
         movieSlides.push(getMovies(searchLine, nextPage));
     }

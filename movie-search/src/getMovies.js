@@ -18,7 +18,7 @@ export default function getMovies(search, page = 1) {
             data = JSON.stringify(movies);
             localStorage.setItem(key, data);
             // {"Response":"False","Error":"Movie not found!"}
-            console.log(key);
+            console.log(movies);
             return createSlides(movies);
         });
 }

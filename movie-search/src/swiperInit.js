@@ -26,5 +26,4 @@ const mySwiper = new Swiper('.swiper-container', {
     },
 });
 mySwiper.init();
-console.log('swiperInitialized');
 export default mySwiper;
