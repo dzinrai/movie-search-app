@@ -2,7 +2,7 @@ import getRating from './getRating.js';
 import MovieSlide from './MovieSlide.js';
 import mySwiper from './swiperInit.js';
 
-export default async function createSlides(data) {
+export default function createSlides(data) {
     if (!Array.isArray(data.Search)) return null;
     const slides = [];
     //
@@ -20,7 +20,9 @@ export default async function createSlides(data) {
             searchedMovie.imdbID,
             slide,
             data.Search.length,
-        );
+        ).then((rate) => {
+            slide.update(rate);
+        });
         slide.render();
         slides.push(slide);
     });

@@ -40,13 +40,13 @@ searchBtn.addEventListener('click', (e) => {
     mySwiper.removeAllSlides();
     movieSlides = [];
     searchLine = String(input.value);
-    movieSlides.push(getMovies(searchLine, 1));
+    movieSlides.push(getMovies(searchLine, 1).then((movies) => movies));
 });
 
 mySwiper.on('slideChange', () => {
     console.log('slide changed', mySwiper.activeIndex, ' total slades = ', mySwiper.slides.length);
     if (mySwiper.activeIndex === mySwiper.slides.length - 8) {
         const nextPage = [...Object.values(movieSlides)].length + 1;
-        movieSlides.push(getMovies(searchLine, nextPage));
+        movieSlides.push(getMovies(searchLine, nextPage).then((movies) => movies));
     }
 });
