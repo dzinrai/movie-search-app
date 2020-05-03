@@ -11,20 +11,18 @@ function completeLoad() {
 export default async function getRating(imdbID, slide, loadmax) {
     const url = `https://www.omdbapi.com/?i=${imdbID}&apikey=4679477d`;
     let data = localStorage.getItem(imdbID);
+    let result = {};
+    let rate = 0;
     if (data) {
         data = await JSON.parse(data);
-        loaded += 1;
-        mySwiper.updateSlides();
-        if (loaded === loadmax) completeLoad();
-        const rate = await data.imdbRating;
-        return rate;
+    } else {
+        result = await fetch(url);
+        data = await result.json();
+        localStorage.setItem(imdbID, JSON.stringify(data));
     }
-    const result = await fetch(url);
-    const movieFromAPI = await result.json();
-    localStorage.setItem(imdbID, JSON.stringify(movieFromAPI));
     loaded += 1;
     mySwiper.updateSlides();
     if (loaded === loadmax) completeLoad();
-    const rate = await movieFromAPI.imdbRating;
+    rate = await data.imdbRating;
     return rate;
 }
