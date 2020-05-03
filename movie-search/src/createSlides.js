@@ -1,4 +1,3 @@
-import getRating from './getRating.js';
 import MovieSlide from './MovieSlide.js';
 import mySwiper from './swiperInit.js';
 
@@ -10,19 +9,14 @@ export default function createSlides(data) {
         mySwiper.appendSlide('<div class="swiper-slide"></div>');
         mySwiper.updateSlides();
         const slide = new MovieSlide(
-            searchedMovie.Title, searchedMovie.Year,
+            searchedMovie.Title,
+            searchedMovie.Year,
             0,
             searchedMovie.Poster,
+            searchedMovie.imdbID,
             mySwiper.slides[mySwiper.slides.length - 1],
             mySwiper.slides.length - 1,
         );
-        getRating(
-            searchedMovie.imdbID,
-            slide,
-            data.Search.length,
-        ).then((rate) => {
-            slide.update(rate);
-        });
         slide.render();
         slides.push(slide);
     });

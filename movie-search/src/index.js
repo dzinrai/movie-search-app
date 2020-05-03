@@ -4,6 +4,7 @@ import './theme.js';
 import keyboard from './modules/keyboardInit.js';
 import create from './modules/create.js';
 import getMovies from './getMovies.js';
+import getRating from './getRating.js';
 import mySwiper from './swiperInit.js';
 import toggleClass from './toggleClass.js';
 
@@ -32,11 +33,26 @@ let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
 const input = document.querySelector('#searchInput');
 const searchBtn = document.querySelector('.search__btn');
 input.focus();
-
 let searchString = 'dream';
+
 function loadSearch(search, page) {
-    getMovies(search, page).then((movies) => {
-        movieSlides.push(movies);
+    document.querySelector('.loading__spinner').classList.add('loading');
+    let loaded = 0;
+    function completeLoad() {
+        loaded = 0;
+        document.querySelector('.loading__spinner').classList.remove('loading');
+        mySwiper.updateSlides();
+    }
+    getMovies(search, page).then((slides) => {
+        slides.forEach((slide) => {
+            getRating(slide.imdbID).then((rate) => {
+                slide.update(rate);
+                loaded += 1;
+                if (loaded === slides.length) completeLoad();
+            });
+        });
+        movieSlides.push(slides);
+        mySwiper.updateSlides();
     });
 }
 loadSearch('dream', 1); // initial load

@@ -7,14 +7,13 @@ export default async function getMovies(search, page = 1) {
     let data = localStorage.getItem(key);
     if (data) {
         data = await JSON.parse(data);
-        return createSlides(data);
+        const slides = await createSlides(data);
+        return slides;
     }
-    //
-    document.querySelector('.loading__spinner').classList.add('loading');
-    //
     const result = await fetch(url);
     const movies = await result.json();
     localStorage.setItem(key, JSON.stringify(movies));
-    return createSlides(movies);
+    const slides = await createSlides(movies);
+    return slides;
     // {"Response":"False","Error":"Movie not found!"}
 }

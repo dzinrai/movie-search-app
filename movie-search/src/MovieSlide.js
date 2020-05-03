@@ -2,11 +2,12 @@ import create from './modules/create.js';
 import noPoster from './img/cinema-logo.jpg';
 
 export default class MovieSlide {
-    constructor(title, year, rate, poster, swiperSlide, position) {
+    constructor(title, year, rate, poster, id, swiperSlide, position) {
         this.title = title;
         this.year = year;
         this.rate = rate;
         this.poster = poster || noPoster;
+        this.imdbID = id;
         this.swiperSlide = swiperSlide;
         this.position = position;
         //
