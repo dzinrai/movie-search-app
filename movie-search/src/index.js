@@ -29,24 +29,30 @@ blurWindow.addEventListener('click', () => {
 // http://www.omdbapi.com/?i=tt3896198&apikey=4679477d
 // http://img.omdbapi.com/?i=tt3896198&apikey=4679477d
 let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
-let searchLine = 'dream';
-movieSlides.push(getMovies(searchLine, 1));
-
 const input = document.querySelector('#searchInput');
 const searchBtn = document.querySelector('.search__btn');
 input.focus();
+
+let searchString = 'dream';
+function loadSearch(search, page) {
+    getMovies(search, page).then((movies) => {
+        movieSlides.push(movies);
+    });
+}
+loadSearch('dream', 1); // initial load
+
 searchBtn.addEventListener('click', (e) => {
     e.preventDefault();
     mySwiper.removeAllSlides();
     movieSlides = [];
-    searchLine = String(input.value);
-    movieSlides.push(getMovies(searchLine, 1).then((movies) => movies));
+    searchString = String(input.value);
+    loadSearch(searchString, 1);
 });
 
 mySwiper.on('slideChange', () => {
     console.log('slide changed', mySwiper.activeIndex, ' total slades = ', mySwiper.slides.length);
     if (mySwiper.activeIndex === mySwiper.slides.length - 8) {
         const nextPage = [...Object.values(movieSlides)].length + 1;
-        movieSlides.push(getMovies(searchLine, nextPage).then((movies) => movies));
+        loadSearch(searchString, nextPage);
     }
 });

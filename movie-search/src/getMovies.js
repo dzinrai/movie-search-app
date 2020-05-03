@@ -14,8 +14,7 @@ export default async function getMovies(search, page = 1) {
     //
     const result = await fetch(url);
     const movies = await result.json();
-    data = await JSON.stringify(movies);
-    localStorage.setItem(key, data);
+    localStorage.setItem(key, JSON.stringify(movies));
     return createSlides(movies);
     // {"Response":"False","Error":"Movie not found!"}
 }
