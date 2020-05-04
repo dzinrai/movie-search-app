@@ -9,11 +9,18 @@ export default async function getMovies(search, page = 1) {
     if (data) {
         data = await JSON.parse(data);
     } else {
-        result = await fetch(url);
-        data = await result.json();
+        try {
+            result = await fetch(url);
+            data = await result.json();
+            if (data.Response === 'False') {
+                // {"Response":"False","Error":"Movie not found!"}
+                return data.Error;
+            }
+        } catch (err) {
+            return data.Error;
+        }
         localStorage.setItem(key, JSON.stringify(data));
     }
-    const slides = createSlides(data);
+    const slides = createSlides(data, page);
     return slides;
-    // {"Response":"False","Error":"Movie not found!"}
 }

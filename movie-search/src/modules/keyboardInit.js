@@ -1,6 +1,7 @@
 import Keyboard from './keyboardClass.js';
 import Button from './buttonClass.js';
 import create from './create.js';
+import toggleClass from './toggleClass.js';
 
 const form = document.getElementsByTagName('form')[0];
 form.addEventListener('submit', (event) => {
@@ -84,4 +85,19 @@ keyboard.updateBtnList(btns);
 keyboard.updateBtnListArray().forEach((btn) => {
     btn.addToKeyboard(keyboard);
 });
-export default keyboard;
+const keyboardSwitch = document.querySelector('.keyboard__activation ');
+const blurWindow = create('div', 'background__flow hidden', null, document.body);
+
+function toggleKeyboard() {
+    keyboard.active = !keyboard.active;
+    toggleClass(keyboard.domElement, 'hidden');
+    toggleClass(keyboard.domElement, 'appear-from-top');
+    toggleClass(blurWindow, 'hidden');
+    toggleClass(keyboardSwitch, 'deactivate');
+}
+keyboardSwitch.addEventListener('click', () => {
+    toggleKeyboard();
+});
+blurWindow.addEventListener('click', () => {
+    toggleKeyboard();
+});

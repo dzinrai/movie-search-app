@@ -9,18 +9,18 @@
 
 <body>
     <header class="header">
-        <button class="theme__switcher btn" id="switcher">
-
-        </button>
+        <h1 class="app__name">Movie Searcher</h1>
     </header>
     <main class="content container">
 
         <form action="">
-            <input class="search__input form-control" id="searchInput" type="text">
+            <input class="search__input form-control" id="searchInput" type="search" placeholder="Start searching...">
             <i class="fas fa-spinner loading__spinner"></i>
+            <button class="clear-search__btn btn fas fa-backspace" type="button"></button>
             <button class="keyboard__activation form-control" type="button"></button>
             <button class="search__btn form-control" type="button">Search</button>
             <div class="container absolute_holder"></div>
+            <div class="alert__warnings"></div>
         </form>
 
         <div class="search_results">
