@@ -12,15 +12,14 @@ const mySwiper = new Swiper('.swiper-container', {
     // If we need pagination
     pagination: {
         el: '.swiper-pagination',
-        type: 'bullets',
+        dynamicBullets: true,
+        dynamicMainBullets: 6,
     },
-
     // Navigation arrows
     navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
     },
-
     lazy: {
         loadPrevNext: true,
     },
