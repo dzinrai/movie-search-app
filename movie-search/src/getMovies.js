@@ -17,7 +17,7 @@ export default async function getMovies(search, page = 1) {
                 return data.Error;
             }
         } catch (err) {
-            return data.Error;
+            return 'Error';
         }
         localStorage.setItem(key, JSON.stringify(data));
     }

@@ -14,6 +14,7 @@ import readyForSearch from './readyForSearch.js';
 
 
 let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
+let pagesLoaded = 0;
 const input = document.querySelector('#searchInput');
 const clearInputBtn = document.querySelector('.clear-search__btn');
 const searchBtn = document.querySelector('.search__btn');
@@ -47,10 +48,14 @@ function afterLoad(error = null, updateSlider = true, page, search) {
     toggleClass(document.querySelector('.loading__spinner'), 'loading');
     toggleClass(clearInputBtn, 'hidden');
     if (updateSlider) mySwiper.updateSlides();
+    pagesLoaded += 1;
 }
 function loadSearch(search, page) {
     let loaded = 0;
-    if (page <= 1) movieSlides = [];
+    if (page <= 1) {
+        movieSlides = [];
+        pagesLoaded = 0;
+    }
     const searchLine = readyForSearch(search);
     if (!searchLine) return;
     //
@@ -74,7 +79,8 @@ function loadSearch(search, page) {
         });
     });
 }
-loadSearch('dream', 1); // initial load
+let nextPage = 1;
+loadSearch('dream', nextPage); // initial load
 
 
 // Event listeners:
@@ -94,9 +100,8 @@ document.addEventListener('keydown', (event) => {
     }
 });
 mySwiper.on('slideChange', () => {
-    console.log('slide changed', mySwiper.activeIndex, ' total slades = ', mySwiper.slides.length);
-    if (mySwiper.activeIndex === mySwiper.slides.length - 8) {
-        const nextPage = [...Object.values(movieSlides)].length + 1;
+    if (mySwiper.activeIndex >= mySwiper.slides.length - 8 && nextPage === pagesLoaded) {
+        nextPage = pagesLoaded + 1;
         loadSearch(searchString, nextPage);
     }
 });
