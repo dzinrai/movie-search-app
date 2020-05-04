@@ -8,6 +8,9 @@ import getRating from './getRating.js';
 import mySwiper from './swiperInit.js';
 import toggleClass from './modules/toggleClass.js';
 import clearElement from './modules/clearElement.js';
+import getByTitle from './getByTitle.js';
+import MovieSlide from './MovieSlide.js';
+import readyForSearch from './readyForSearch.js';
 
 
 let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
@@ -18,22 +21,25 @@ const alertArea = document.querySelector('.alert__warnings');
 input.value = '';
 input.focus();
 let searchString = 'dream';
-//
-function getReadyForLoad(search, page) {
-    // validate search and start sppiner
-    if (page <= 1) movieSlides = [];
-    let searchLine = String(search);
-    searchLine = search ? search.trim() : null;
-    searchLine = search.replace(' ', '+');
-    if (!search || search.length < 0) {
-        input.value = '';
-        return null;
-    }
-    toggleClass(document.querySelector('.loading__spinner'), 'loading');
-    toggleClass(document.querySelector('.clear-search__btn'), 'hidden');
-    return searchLine;
+
+function soloTitle(searchLine) {
+    // very specific search that runs if getMovies failed
+    getByTitle(searchLine).then((movie) => {
+        if (typeof movie === 'string') return;
+        const slide = new MovieSlide(
+            movie.Title,
+            movie.Year,
+            movie.imdbRating,
+            movie.Poster,
+            movie.imdbID,
+        );
+        slide.dom.container.removeChild(slide.dom.title);
+        slide.dom.innerDiv.append(slide.dom.title);
+        clearElement(alertArea);
+        alertArea.append(slide.dom.container);
+    });
 }
-function completeLoad(error = null, updateSlider = true, page, search) {
+function afterLoad(error = null, updateSlider = true, page, search) {
     if (error && page === 1) {
         clearElement(alertArea);
         create('span', 'alert', `No results for "${search}"`, alertArea);
@@ -44,15 +50,18 @@ function completeLoad(error = null, updateSlider = true, page, search) {
 }
 function loadSearch(search, page) {
     let loaded = 0;
-    const searchLine = getReadyForLoad(search, page);
+    if (page <= 1) movieSlides = [];
+    const searchLine = readyForSearch(search);
     if (!searchLine) return;
+    //
     getMovies(searchLine, page).then((slides) => {
         movieSlides.push(slides);
         mySwiper.updateSlides();
         // Errors in response:
         if (!slides || slides.length === 0 || typeof slides === 'string') {
             const error = slides;
-            completeLoad(error, false, page, search);
+            soloTitle(searchLine);
+            afterLoad(error, false, page, search);
             return;
         }
         // Response is valid
@@ -60,13 +69,15 @@ function loadSearch(search, page) {
             getRating(slide.imdbID).then((rate) => {
                 slide.update(rate);
                 loaded += 1;
-                if (loaded === slides.length) completeLoad(null, false);
+                if (loaded === slides.length) afterLoad(null, false);
             });
         });
     });
 }
 loadSearch('dream', 1); // initial load
-//
+
+
+// Event listeners:
 searchBtn.addEventListener('click', (event) => {
     event.preventDefault();
     clearElement(alertArea);
@@ -82,7 +93,6 @@ document.addEventListener('keydown', (event) => {
         loadSearch(searchString, 1);
     }
 });
-//
 mySwiper.on('slideChange', () => {
     console.log('slide changed', mySwiper.activeIndex, ' total slades = ', mySwiper.slides.length);
     if (mySwiper.activeIndex === mySwiper.slides.length - 8) {
@@ -90,7 +100,6 @@ mySwiper.on('slideChange', () => {
         loadSearch(searchString, nextPage);
     }
 });
-//
 clearInputBtn.addEventListener('click', (e) => {
     e.preventDefault();
     input.value = '';

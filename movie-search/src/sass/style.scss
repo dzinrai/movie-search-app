@@ -224,12 +224,46 @@ form::before {
     font-size: 1.4em;
 }
 .alert__warnings {
-    height: 35px;
-    max-height: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 100%;
     padding: 5px 0;
+    .movie-card {
+        max-height: 200px;
+        max-width: 400px;
+        flex-direction: row;
+    }
+    .movie-card_poster {
+        order: 1;
+        max-height: 200px;
+        max-width: 150px;
+        background-size: contain;
+        align-self: center;
+    }
+    .movie-card_title {
+        order: 0;
+        flex: 1 0 100%;
+    }
+    .mini__container {
+        order: 2;
+        flex: 0 1 50%;
+        flex-direction: unset;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 20px 0;
+        .movie-card_rate {
+            flex: 1 1 50%;
+            order: 1;
+        }
+        .movie-card_year {
+            flex: 1 1 50%;
+            order: 2;
+        }
+    }
 }
 .alert {
+    max-height: 35px;
     margin: 0 auto;
     color: #8d0905;
 }
