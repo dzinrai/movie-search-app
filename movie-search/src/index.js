@@ -8,9 +8,8 @@ import getRating from './getRating.js';
 import mySwiper from './swiperInit.js';
 import toggleClass from './modules/toggleClass.js';
 import clearElement from './modules/clearElement.js';
-import getByTitle from './getByTitle.js';
-import MovieSlide from './MovieSlide.js';
 import readyForSearch from './readyForSearch.js';
+import soloTitle from './soloTitle.js';
 
 
 let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
@@ -23,23 +22,6 @@ input.value = '';
 input.focus();
 let searchString = 'dream';
 
-function soloTitle(searchLine) {
-    // very specific search that runs if getMovies failed
-    getByTitle(searchLine).then((movie) => {
-        if (typeof movie === 'string') return;
-        const slide = new MovieSlide(
-            movie.Title,
-            movie.Year,
-            movie.imdbRating,
-            movie.Poster,
-            movie.imdbID,
-        );
-        slide.dom.container.removeChild(slide.dom.title);
-        slide.dom.innerDiv.append(slide.dom.title);
-        clearElement(alertArea);
-        alertArea.append(slide.dom.container);
-    });
-}
 function afterLoad(error = null, updateSlider = true, page, search) {
     if (error && page === 1) {
         clearElement(alertArea);
@@ -50,6 +32,7 @@ function afterLoad(error = null, updateSlider = true, page, search) {
     if (updateSlider) mySwiper.updateSlides();
     pagesLoaded += 1;
 }
+
 function loadSearch(search, page) {
     let loaded = 0;
     if (page <= 1) {
@@ -65,7 +48,7 @@ function loadSearch(search, page) {
         // Errors in response:
         if (!slides || slides.length === 0 || typeof slides === 'string') {
             const error = slides;
-            soloTitle(searchLine);
+            soloTitle(searchLine, alertArea);
             afterLoad(error, false, page, search);
             return;
         }
@@ -79,6 +62,7 @@ function loadSearch(search, page) {
         });
     });
 }
+
 let nextPage = 1;
 loadSearch('dream', nextPage); // initial load
 
@@ -90,6 +74,7 @@ searchBtn.addEventListener('click', (event) => {
     searchString = String(input.value);
     loadSearch(searchString, 1);
 });
+
 document.addEventListener('keydown', (event) => {
     const keyCode = event.code ? event.code : event.keyCode;
     if (keyCode === 'Enter') {
@@ -99,12 +84,14 @@ document.addEventListener('keydown', (event) => {
         loadSearch(searchString, 1);
     }
 });
+
 mySwiper.on('slideChange', () => {
     if (mySwiper.activeIndex >= mySwiper.slides.length - 8 && nextPage === pagesLoaded) {
         nextPage = pagesLoaded + 1;
         loadSearch(searchString, nextPage);
     }
 });
+
 clearInputBtn.addEventListener('click', (e) => {
     e.preventDefault();
     input.value = '';
