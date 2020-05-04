@@ -14,7 +14,7 @@ export default class MovieSlide {
         const container = create('div', 'movie-card');
         this.dom = {
             container,
-            title: create('span', 'movie-card_title', title, container),
+            title: create('a', 'movie-card_title', title, container, ['href', `https://www.imdb.com/title/${id}/`], ['target', '_blank']),
             poster: create('div', 'movie-card_poster', null, container, ['style', `background-image: url(${poster})`]),
             innerDiv: create('div', 'mini__container', null, container),
             year: create('span', 'movie-card_year', year),

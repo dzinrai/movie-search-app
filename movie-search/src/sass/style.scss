@@ -4,6 +4,7 @@ $fa-font-path: "/webfonts";
 @import "./node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
 @import "./node_modules/@fortawesome/fontawesome-free/scss/solid";
 @import "./node_modules/@fortawesome/fontawesome-free/scss/regular";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/brands";
 $white: #ffffff;
 :root {
     --themeColor: #fcf836;
@@ -20,8 +21,8 @@ $white: #ffffff;
 }
 .rootDark {
     --themeColor: #011e38;
-    --stageColor: #07001f;
-    --offStageColor: #070122;
+    --stageColor: #1d1d31;
+    --offStageColor: #0d1729;
     --secondaryColor: #042b30;
     --thirdColor: #ffffff;
     --mainText: #d7d7d8;
@@ -47,7 +48,6 @@ body {
         display: none;
     }
 }
-
 .header {
     display: flex;
     justify-content: center;
@@ -64,6 +64,10 @@ body {
 .app__name {
     color: var(--offText);
     cursor: default;
+}
+a:hover {
+    color: var(--hoverColor1);
+    text-decoration: none;
 }
 //
 @media (max-width: 1020px) {
@@ -231,9 +235,9 @@ form::before {
 }
 //
 .swiper-container {
-    position: relative;
+    position: unset;
     z-index: 1;
-    width: 100%;
+    width: 90%;
     //height: 300px;
 }
 @media (max-width: 1020px) {
@@ -265,7 +269,17 @@ form::before {
 }
 //
 .search_results {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 100%;
     padding: 30px 0;
+}
+.swiper-button-prev {
+    left: 0;
+}
+.swiper-button-next {
+    right: 0;
 }
 //
 .movie-card {
@@ -278,14 +292,15 @@ form::before {
     flex-wrap: wrap;
 }
 .movie-card_title {
-    height: 28px;
-    max-height: 28px;
+    height: 30px;
+    max-height: 30px;
     margin: 0 0 10px;
     overflow: hidden;
     box-sizing: border-box;
     font-size: 0.9em;
     font-weight: bold;
     line-height: 14px;
+    color: var(--mainText);
 }
 .movie-card_poster {
     width: 100%;
@@ -336,6 +351,38 @@ form::before {
 }
 .appear-from-top {
     animation: slide-from-top linear .2s 1;
+}
+//
+.footer {
+    background-color: var(--offStageColor);
+    padding: 10px;
+    .container {
+        display: flex;
+        padding: 10px;
+        justify-content: space-between;
+        align-items: center;
+    }
+    a, a:hover, a:active, a:visited {
+        font-size: 15px;
+        text-decoration: none;
+        color: var(--offText);
+    }
+    a:hover {
+        color: var(--hoverColor1);
+    }
+    h2 {
+        margin: 0;
+        font-size: 20px;
+        color: var(--offText);
+        cursor: default;
+    }
+}
+@media (min-width: 1200px) {
+    .footer {
+        .container {
+            max-width: 1050px;
+        }
+    }
 }
 //
 @keyframes slide-from-top {

@@ -10,8 +10,6 @@ import toggleClass from './modules/toggleClass.js';
 import clearElement from './modules/clearElement.js';
 
 
-// http://www.omdbapi.com/?i=tt3896198&apikey=4679477d
-// http://img.omdbapi.com/?i=tt3896198&apikey=4679477d
 let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
 const input = document.querySelector('#searchInput');
 const clearInputBtn = document.querySelector('.clear-search__btn');
@@ -24,14 +22,15 @@ let searchString = 'dream';
 function getReadyForLoad(search, page) {
     // validate search and start sppiner
     if (page <= 1) movieSlides = [];
-    toggleClass(document.querySelector('.loading__spinner'), 'loading');
-    toggleClass(document.querySelector('.clear-search__btn'), 'hidden');
-    let searchLine = search ? search.trim() : null;
+    let searchLine = String(search);
+    searchLine = search ? search.trim() : null;
     searchLine = search.replace(' ', '+');
     if (!search || search.length < 0) {
         input.value = '';
         return null;
     }
+    toggleClass(document.querySelector('.loading__spinner'), 'loading');
+    toggleClass(document.querySelector('.clear-search__btn'), 'hidden');
     return searchLine;
 }
 function completeLoad(error = null, updateSlider = true, page, search) {
