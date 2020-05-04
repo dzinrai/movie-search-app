@@ -48,7 +48,7 @@ function loadSearch(search, page) {
         // Errors in response:
         if (!slides || slides.length === 0 || typeof slides === 'string') {
             const error = slides;
-            soloTitle(searchLine, alertArea);
+            if (page === 1) soloTitle(searchLine, alertArea);
             afterLoad(error, false, page, search);
             return;
         }
@@ -76,8 +76,7 @@ searchBtn.addEventListener('click', (event) => {
 });
 
 document.addEventListener('keydown', (event) => {
-    const keyCode = event.code ? event.code : event.keyCode;
-    if (keyCode === 'Enter') {
+    if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
         clearElement(alertArea);
         searchString = String(input.value);
