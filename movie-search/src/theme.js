@@ -2,7 +2,7 @@ import create from './modules/create.js';
 
 const root = document.querySelector(':root');
 const darkHolder = create('span', 'hidden rootDark', null, document.body);
-const cssVariables = ['--themeColor', '--stageColor', '--secondaryColor', '--thirdColor', '--mainText', '--activeColor', '--secondaryActiveColor', '--hoverColor1', '--focusColor'];
+const cssVariables = ['--themeColor', '--stageColor', '--offStageColor', '--secondaryColor', '--thirdColor', '--mainText', '--offText', '--activeColor', '--secondaryActiveColor', '--hoverColor1', '--focusColor'];
 const rootLightStyles = getComputedStyle(root);
 const rootDarkStyles = getComputedStyle(darkHolder);
 const dark = { name: 'dark' };
@@ -21,8 +21,8 @@ export default function setTheme(theme_) {
 }
 
 setTheme(theme);
-
-document.getElementById('switcher').addEventListener('click', () => {
+const themeSwitcherBtn = create('button', 'theme__switcher btn', null, document.body);
+themeSwitcherBtn.addEventListener('click', () => {
     if (theme === dark) theme = light;
     else theme = dark;
     setTheme(theme);

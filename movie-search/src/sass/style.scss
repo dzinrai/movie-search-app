@@ -8,9 +8,11 @@ $white: #ffffff;
 :root {
     --themeColor: #fcf836;
     --stageColor: #ffffff;
+    --offStageColor: #070122;
     --secondaryColor: #fdb75b;
     --thirdColor: #000000;
     --mainText: #05070a;
+    --offText: #e8e9eb;
     --activeColor: #875cfd;
     --secondaryActiveColor: #ffffff;
     --hoverColor1: #8d0905;
@@ -19,9 +21,11 @@ $white: #ffffff;
 .rootDark {
     --themeColor: #011e38;
     --stageColor: #07001f;
+    --offStageColor: #070122;
     --secondaryColor: #042b30;
     --thirdColor: #ffffff;
-    --mainText: #919191;
+    --mainText: #d7d7d8;
+    --offText: #e8e9eb;
     --activeColor: #05070a;
     --secondaryActiveColor: #07001f;
     --hoverColor1: #8d0905;
@@ -39,16 +43,14 @@ body {
 .hidden {
     visibility: hidden;
     position: absolute;
-}
-.hidden {
-    visibility: hidden;
-    position: absolute;
     .keyboard__row {
         display: none;
     }
 }
 
 .header {
+    display: flex;
+    justify-content: center;
     position: relative;
     z-index: 1;
     padding: 10px;
@@ -57,6 +59,11 @@ body {
     min-height: 30px;
     box-sizing: border-box;
     max-width: 100vw;
+    background-color: var(--offStageColor);
+}
+.app__name {
+    color: var(--offText);
+    cursor: default;
 }
 //
 @media (max-width: 1020px) {
@@ -76,7 +83,7 @@ body {
     padding: 3px 3px 5px 5px;
     position: absolute;
     z-index: 1;
-    right: 0.7vw;
+    right: 0;
     top: 0;
     cursor: pointer;
     background-color: var(--thirdColor);
@@ -85,6 +92,11 @@ body {
     border-bottom-left-radius: 6px;
     outline: none;
 }
+//
+.content {
+    padding: 30px 15px;
+}
+//
 .form-control:focus {
     border-color: var(--focusColor);
     outline: 0;
@@ -110,20 +122,33 @@ form {
     flex-wrap: wrap;
     position: relative;
 }
+form::before {
+    position: absolute;
+    left: 6px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: '\f002';
+    font-size: 22px;
+    line-height: 30px;
+    color: var(--offText);
+}
 .search__input {
     display: inline-block;
     flex: 1 0 70%;
     width: 70vw;
     height: 30px;
+    text-indent: 20px;
     box-sizing: border-box;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 .loading__spinner {
     position: absolute;
-    right: 13.5%;
+    right: 14%;
     font-weight: bold;
     font-size: 24px;
-    line-height: 28px;
-    color: var(--activeColor);
+    line-height: 30px;
+    color: var(--hoverColor1);
     visibility: hidden;
 }
 .loading__spinner.loading {
@@ -136,6 +161,8 @@ form {
     cursor: pointer;
     height: 30px;
     border: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
     box-sizing: border-box;
     line-height: 15px;
     background-color: var(--activeColor);
@@ -143,7 +170,8 @@ form {
     font-weight: bold;
     color: $white;
 }
-.keyboard__activation {
+.keyboard__activation,
+.clear-search__btn {
     position: absolute;
     right: 9%;
     flex: 0 1 10%;
@@ -164,11 +192,44 @@ form {
     content: '\f11c';
     padding: 0;
     line-height: 26px;
-    transition: color .3s;
+    transition: color .2s;
+    transition-property: font-size, color;
 }
 .keyboard__activation:hover::after {
     color: var(--hoverColor1);
 }
+.keyboard__activation.deactivate::after {
+    font-weight: 900;
+    content: '\f410';
+    color: var(--hoverColor1);
+}
+.clear-search__btn {
+    height: 30px;
+    width: 30px;
+    font-size: 28px;
+    color: var(--activeColor);
+    transition: font-size .2s;
+    transition-property: font-size, color;
+}
+.loading__spinner, 
+.clear-search__btn {
+    right: 16%;
+}
+.keyboard__activation:active::after,
+.clear-search__btn:active {
+    font-size: 1.4em;
+}
+.alert__warnings {
+    height: 35px;
+    max-height: 35px;
+    width: 100%;
+    padding: 5px 0;
+}
+.alert {
+    margin: 0 auto;
+    color: #8d0905;
+}
+//
 .swiper-container {
     position: relative;
     z-index: 1;
@@ -232,18 +293,26 @@ form {
     max-height: 400px;
     background-size: cover;
     background-repeat: no-repeat;
+    border: 2px solid var(--secondaryColor);
+    border-bottom: none;
 }
 .mini__container {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin: 4px 0 30px;
+    margin: 0 0 30px;
     background-color: var(--activeColor);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border: 2px solid var(--secondaryColor);
+    border-top: none;
     .movie-card_year {
         flex: 0 1 22%;
+        color: var(--offText);
     }
     .movie-card_rate {
         flex: 0 1 22%;
+        color: var(--offText);
     }
     .movie-card_rate::before {
         font-family: "Font Awesome 5 Free";
