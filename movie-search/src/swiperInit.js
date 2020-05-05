@@ -1,4 +1,8 @@
-import Swiper from 'swiper';
+import {
+    Swiper, Navigation, Pagination, Lazy,
+} from 'swiper/js/swiper.esm.js';
+
+Swiper.use([Swiper, Navigation, Pagination, Lazy]);
 
 const mySwiper = new Swiper('.swiper-container', {
     // Optional parameters
@@ -6,9 +10,6 @@ const mySwiper = new Swiper('.swiper-container', {
     updateOnWindowResize: true,
     slidesPerView: 4,
     loop: false,
-    fadeEffect: {
-        crossFade: true,
-    },
     // If we need pagination
     pagination: {
         el: '.swiper-pagination',

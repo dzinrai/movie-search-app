@@ -14,11 +14,16 @@
     <main class="content container">
 
         <form action="">
-            <input class="search__input form-control" id="searchInput" type="text" placeholder="Start searching...">
-            <i class="fas fa-spinner loading__spinner"></i>
-            <button class="clear-search__btn btn fas fa-backspace" type="button"></button>
-            <button class="keyboard__activation form-control" type="button"></button>
-            <button class="search__btn form-control" type="button">Search</button>
+            <div class="search__container">
+                <div class="loading__container">
+                    <div class="loading__bar"></div>
+                </div>
+                <input class="search__input form-control" id="searchInput" type="text" placeholder="Start searching..." autocomplete="off">
+                <i class="fas fa-spinner loading__spinner"></i>
+                <button class="clear-search__btn btn fas fa-backspace" type="button"></button>
+                <button class="keyboard__activation btn form-control" type="button"></button>
+                <button class="search__btn btn form-control" type="button">Search</button>                
+            </div>
             <div class="container absolute_holder"></div>
             <div class="alert__warnings"></div>
         </form>

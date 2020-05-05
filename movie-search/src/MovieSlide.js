@@ -11,7 +11,7 @@ export default class MovieSlide {
         this.imdbID = id;
         this.swiperSlide = swiperSlide;
         this.position = position;
-        //
+        // dom
         const container = create('div', 'movie-card');
         const noPoster = create('i', 'fas fa-camera');
         this.dom = {
