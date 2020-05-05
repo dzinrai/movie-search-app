@@ -2,7 +2,10 @@ import create from './modules/create.js';
 
 const root = document.querySelector(':root');
 const darkHolder = create('span', 'hidden rootDark', null, document.body);
-const cssVariables = ['--themeColor', '--stageColor', '--offStageColor', '--secondaryColor', '--thirdColor', '--mainText', '--offText', '--activeColor', '--secondaryActiveColor', '--hoverColor1', '--focusColor'];
+const cssVariables = ['--themeColor', '--stageColor', '--offStageColor', '--secondaryColor', '--thirdColor',
+    '--mainText', '--offText', '--activeColor', '--secondaryActiveColor', '--hoverColor1', '--focusColor',
+    '--alertColor', '--btnHover', '--fadedColor',
+];
 const rootLightStyles = getComputedStyle(root);
 const rootDarkStyles = getComputedStyle(darkHolder);
 const dark = { name: 'dark' };
