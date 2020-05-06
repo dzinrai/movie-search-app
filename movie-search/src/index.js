@@ -3,7 +3,7 @@ import regeneratorRuntime from 'regenerator-runtime';
 import './theme.js';
 import './modules/keyboardInit.js';
 import getMovies from './getMovies.js';
-import getRating from './getRating.js';
+import getMovieByID from './getMovieByID.js';
 import mySwiper from './swiperInit.js';
 import clearElement from './modules/clearElement.js';
 import readyForSearch from './readyForSearch.js';
@@ -67,8 +67,7 @@ async function loadSearch(search, page) {
         }
         // Response is valid
         slides.forEach((slide) => {
-            getRating(slide.imdbID).then((rate) => {
-                slide.update(rate);
+            getMovieByID(slide, slide.imdbID).then(() => {
                 loaded += 1;
                 if (loaded === slides.length) afterLoad(null, false, page);
             });
