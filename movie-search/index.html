@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Movie Search</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
 </head>
@@ -13,13 +13,12 @@
     </header>
     <main class="content container">
 
-        <form action="">
+        <form class="form" action="">
             <div class="search__container">
                 <div class="loading__container">
                     <div class="loading__bar"></div>
                 </div>
                 <input class="search__input form-control" id="searchInput" type="text" placeholder="Start searching..." autocomplete="off">
-                <i class="fas fa-spinner loading__spinner"></i>
                 <button class="clear-search__btn btn fas fa-backspace" type="button"></button>
                 <button class="keyboard__activation btn form-control" type="button"></button>
                 <button class="search__btn btn form-control" type="button">Search</button>                

@@ -22,7 +22,6 @@ const loadingBar = document.querySelector('.loading__bar');
 input.value = '';
 input.focus();
 
-
 function loadbarStart(bar) {
     for (let i = 0; i < 30; i += 1) create('div', 'bar_peace', null, bar);
     bar.classList.add('start');
@@ -34,18 +33,22 @@ function loadbarStop(bar) {
     bar.classList.add('hidden');
 }
 function afterLoad(error = null, updateSlider = true, page, search) {
-    if (error && page === 1) {
+    loadbarStop(loadingBar);
+    if (error === 'Request limit reached!') {
+        showAlert('Sorry, we have reached today\'s limit of API');
+        return;
+    }
+    if (error && page === 1 && search) {
         showAlert(`No results for "${search.replace('+', ' ')}"`);
     }
-    loadbarStop(loadingBar);
     if (updateSlider) mySwiper.updateSlides();
 }
 let searchString = 'batman';
+
 async function loadSearch(search, page) {
     console.log(`loadSearch(${search}, ${page})`);
     let loaded = 0;
     let url = '';
-    if (nextPage - page >= 2) return;
     if (page === 1) {
         movieSlides = [];
         nextPage = 1;
@@ -79,6 +82,9 @@ async function loadSearch(search, page) {
             slide.updateDescription(movieData);
             loaded += 1;
             if (loaded === slides.length) afterLoad(null, false, page);
+        } else if (typeof movieData === 'string') {
+            const error = movieData;
+            afterLoad(error, false);
         }
     });
 }
@@ -91,30 +97,27 @@ searchBtn.addEventListener('click', (event) => {
     event.preventDefault();
     clearElement(alertArea);
     searchString = String(input.value);
-    nextPage = 1;
     loadSearch(searchString, 1);
 });
-
 document.addEventListener('keydown', (event) => {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
         clearElement(alertArea);
         searchString = String(input.value);
-        nextPage = 1;
         loadSearch(searchString, 1);
     }
 });
-mySwiper.on('reachEnd', () => {
-    if (mySwiper.slides.length !== 0) {
-        loadSearch(searchString, nextPage);
-    }
-});
 mySwiper.on('slideChange', () => {
-    /* console.log(`nextPage = ${nextPage},
-    activeIndex = ${mySwiper.activeIndex},
-    mySwiper.slides.length = ${mySwiper.slides.length}`); */
-    if (mySwiper.slides.length === 0) loadSearch(searchString, 1);
-    else if (mySwiper.activeIndex === mySwiper.slides.length - 8) {
+    if (mySwiper.slides.length === 0) {
+        loadSearch(searchString, 1);
+        return;
+    }
+    if (movieSlides.length < 1) return;
+    let loadedSlides = 0;
+    movieSlides.forEach((pageOfSlides) => {
+        if (pageOfSlides) loadedSlides += pageOfSlides.length;
+    });
+    if (mySwiper.activeIndex >= loadedSlides - 8 && movieSlides.slice(-1)[0].length === 10) {
         loadSearch(searchString, nextPage);
     }
 });

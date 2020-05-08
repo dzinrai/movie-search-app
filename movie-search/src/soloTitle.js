@@ -1,5 +1,4 @@
 import MovieSlide from './MovieSlide.js';
-import clearElement from './modules/clearElement.js';
 import preloadImage from './api/preloadImage.js';
 import create from './modules/create.js';
 import fetchAPI from './api/fetchAPI.js';
@@ -11,10 +10,11 @@ export default async function soloTitle(searchLine, target) {
     const movieData = await fetchAPI(url);
     if (typeof movieData === 'string') return;
     const slide = new MovieSlide(movieData);
+    slide.updateDescription(movieData);
+    preloadImage(slide.dom.poster, slide.posterURL);
     slide.dom.container.removeChild(slide.dom.title);
     slide.dom.innerDiv.append(slide.dom.title);
-    clearElement(target);
-    preloadImage(slide.dom.poster, slide.posterURL);
+    target.append(create('span', 'alert', 'Maybe you are looking for:'));
     target.append(slide.dom.container);
     const closeBtn = create('i', 'closer far fa-times-circle', null, slide.dom.container);
     closeBtn.addEventListener('click', () => {

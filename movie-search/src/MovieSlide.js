@@ -16,7 +16,7 @@ export default class MovieSlide {
         const noPoster = create('i', 'fas fa-camera');
         this.dom = {
             container,
-            title: create('a', 'movie-card_title', this.title, container, ['href', `https://www.imdb.com/title/${this.id}/videogallery/`], ['target', '_blank']),
+            title: create('a', 'movie-card_title', this.title, container, ['href', `https://www.imdb.com/title/${this.imdbID}/videogallery/`], ['target', '_blank']),
             poster: create('div', 'movie-card_poster', noPoster, container),
             innerDiv: create('div', 'mini__container', null, container),
             year: create('span', 'movie-card_year', this.year),

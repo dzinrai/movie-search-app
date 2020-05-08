@@ -16,6 +16,7 @@ export default async function fetchAPI(url, storageKey) {
     } catch (err) {
         return 'Error';
     }
-    localStorage.setItem(storageKey, JSON.stringify(data));
+    if (storageKey) localStorage.setItem(storageKey, JSON.stringify(data));
+    else localStorage.setItem(data.imdbID, JSON.stringify(data));
     return data;
 }

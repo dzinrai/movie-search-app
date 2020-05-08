@@ -13,7 +13,6 @@ export default function createSlides(data) {
         slide.render();
         slides.push(slide);
     });
-    console.log(`${slides.length} slides created, total ${mySwiper.slides.length}`);
     mySwiper.update();
     return slides;
 }

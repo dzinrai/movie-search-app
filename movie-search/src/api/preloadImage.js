@@ -4,7 +4,7 @@ export default async function preloadImage(element, url) {
     // preloadImage(this.dom.poster, this.posterURL)
     const image = new Image();
     let imageURLResponse;
-    // console.clear();
+    console.clear();
     if (url === 'N/A') return;
     try {
         imageURLResponse = await fetch(url);
