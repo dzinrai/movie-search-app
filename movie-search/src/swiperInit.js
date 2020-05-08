@@ -24,6 +24,30 @@ const mySwiper = new Swiper('.swiper-container', {
     lazy: {
         loadPrevNext: true,
     },
+    // Responsive breakpoints
+    breakpoints: {
+    // when window width is >= 320px
+        320: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
+        480: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+        },
+        576: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+        },
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+        },
+        1020: {
+            slidesPerView: 4,
+            spaceBetween: 10,
+        },
+    },
 });
 mySwiper.init();
 export default mySwiper;

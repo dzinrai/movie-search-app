@@ -1,25 +1,19 @@
 import MovieSlide from './MovieSlide.js';
 import mySwiper from './swiperInit.js';
+import create from './modules/create.js';
 
-export default function createSlides(data, page) {
+export default function createSlides(data) {
     if (!Array.isArray(data.Search)) return null;
     const slides = [];
-    if (page === 1) mySwiper.removeAllSlides();
     data.Search.forEach((searchedMovie) => {
-        mySwiper.appendSlide('<div class="swiper-slide"></div>');
+        const newDivSlide = create('div', 'swiper-slide');
+        mySwiper.appendSlide(newDivSlide);
         mySwiper.updateSlides();
-        const slide = new MovieSlide(
-            searchedMovie.Title,
-            searchedMovie.Year,
-            0,
-            searchedMovie.Poster,
-            searchedMovie.imdbID,
-            mySwiper.slides[mySwiper.slides.length - 1],
-            mySwiper.slides.length - 1,
-        );
+        const slide = new MovieSlide(searchedMovie, newDivSlide);
         slide.render();
         slides.push(slide);
     });
+    console.log(`${slides.length} slides created, total ${mySwiper.slides.length}`);
     mySwiper.update();
     return slides;
 }
