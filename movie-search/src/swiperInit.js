@@ -7,8 +7,7 @@ Swiper.use([Swiper, Navigation, Pagination, Lazy]);
 const mySwiper = new Swiper('.swiper-container', {
     // Optional parameters
     direction: 'horizontal',
-    updateOnWindowResize: true,
-    slidesPerView: 4,
+    slidesPerView: 1,
     loop: false,
     // If we need pagination
     pagination: {
@@ -26,27 +25,31 @@ const mySwiper = new Swiper('.swiper-container', {
     },
     // Responsive breakpoints
     breakpoints: {
-    // when window width is >= 320px
-        320: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-        },
-        480: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-        },
-        576: {
-            slidesPerView: 2,
-            spaceBetween: 20,
-        },
-        768: {
-            slidesPerView: 3,
-            spaceBetween: 20,
-        },
         1020: {
             slidesPerView: 4,
             spaceBetween: 10,
         },
+        800: {
+            slidesPerView: 3,
+            spaceBetween: 20,
+        },
+        700: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+        },
+        600: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+        },
+        320: {
+            slidesPerView: 1,
+            spaceBetween: 40,
+        },
+        1: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
+        // when window width is >= 320px
     },
 });
 mySwiper.init();
