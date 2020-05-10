@@ -17,7 +17,7 @@ cssVariables.forEach((variable) => {
 let theme = light;
 if (localStorage.getItem('theme') === 'dark') theme = dark;
 
-export default function setTheme(theme_) {
+function setTheme(theme_) {
     [...Object.keys(theme_)].slice(1).forEach((color) => {
         root.style.setProperty(color, theme_[color]);
     });

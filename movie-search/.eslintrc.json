@@ -23,5 +23,5 @@
             }
         ]
     },
-    "ignorePatterns": ["webpack.config.js", "node_modules/","dist/"]
+    "ignorePatterns": ["webpack.config.js", "node_modules/", "dist/", "jest.config.js"]
 }

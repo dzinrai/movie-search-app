@@ -3,13 +3,15 @@ import Button from './buttonClass.js';
 import create from './create.js';
 import toggleClass from './toggleClass.js';
 
-const form = document.getElementsByTagName('form')[0];
-form.addEventListener('submit', (event) => {
-    event.preventDefault();
-});
+const form = document.querySelector('.form');
+if (form) {
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+    });
+}
 const search = document.getElementById('searchInput');
 const btns = {};
-const keyboardContainer = create('DIV', 'keyboard__container hidden', null, form.getElementsByClassName('container')[0]);
+const keyboardContainer = create('DIV', 'keyboard__container hidden', null, form.querySelector('.container'));
 const keyboard = new Keyboard('en', search, btns, keyboardContainer);
 // Creating buttons
 btns.Backquote = new Button('Backquote', ['`', '~'], ['ё', ''], true);

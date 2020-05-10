@@ -8,11 +8,10 @@ export default function createSlides(data) {
     data.Search.forEach((searchedMovie) => {
         const newDivSlide = create('div', 'swiper-slide');
         if (mySwiper) mySwiper.appendSlide(newDivSlide);
-        if (mySwiper) mySwiper.updateSlides();
         const slide = new MovieSlide(searchedMovie, newDivSlide);
         if (mySwiper) slide.render();
         slides.push(slide);
     });
-    if (mySwiper) mySwiper.update();
+    if (mySwiper) mySwiper.updateSlides();
     return slides;
 }
