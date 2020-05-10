@@ -90,12 +90,14 @@ keyboard.updateBtnListArray().forEach((btn) => {
 const keyboardSwitch = document.querySelector('.keyboard__activation ');
 const blurWindow = create('div', 'background__flow hidden', null, document.body);
 
-function toggleKeyboard() {
+export function toggleKeyboard() {
     keyboard.active = !keyboard.active;
+    toggleClass(keyboard.targetOfKeyboard, 'targeted');
     toggleClass(keyboard.domElement, 'hidden');
     toggleClass(keyboard.domElement, 'appear-from-top');
     toggleClass(blurWindow, 'hidden');
     toggleClass(keyboardSwitch, 'deactivate');
+    keyboard.deactivateKeyboard();
 }
 keyboardSwitch.addEventListener('click', () => {
     toggleKeyboard();
@@ -103,3 +105,5 @@ keyboardSwitch.addEventListener('click', () => {
 blurWindow.addEventListener('click', () => {
     toggleKeyboard();
 });
+
+export default { keyboard, toggleKeyboard };

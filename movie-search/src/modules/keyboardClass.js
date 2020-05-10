@@ -208,6 +208,12 @@ class Keyboard {
         return this.buttonListArray;
     }
 
+    deactivateKeyboard() {
+        this.buttonListArray.forEach((btn) => {
+            btn.removeClass('active');
+        });
+    }
+
     saveKeyboard() {
         localStorage.setItem('lang', this.language);
     }

@@ -95,7 +95,6 @@ a:hover {
     box-shadow: 0 0 0 0.2rem var(--focusColor);
     border-radius: 3px;
 }
-// .focused
 .btn:hover {
     color: var(--btnHover);
 }
@@ -242,6 +241,10 @@ form .search__input:active,
 form .search__input:focus {
     color: var(--mainText);
     background-color: transparent;
+}
+.form .targeted, .form .targeted:focus, .form .targeted:active {
+    font-weight: 900;
+    background-color: var(--stageColor);
 }
 .loading__spinner {
     font-weight: bold;
@@ -638,7 +641,7 @@ form .search__input:focus {
     width: 150vw;
     height: 100vh;
     background-color: #000000;
-    opacity: 0.7;
+    opacity: 0.3;
     transition: opacity .3s;
 }
 .appear-from-top {

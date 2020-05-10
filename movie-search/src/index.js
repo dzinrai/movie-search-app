@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import regeneratorRuntime from 'regenerator-runtime';
 import './theme.js';
-import './modules/keyboardInit.js';
 import mySwiper from './swiperInit.js';
 import clearElement from './modules/clearElement.js';
 import readyForSearch from './readyForSearch.js';
@@ -10,7 +9,7 @@ import soloTitle from './soloTitle.js';
 import create from './modules/create.js';
 import createSlides from './createSlides.js';
 import fetchAPI from './api/fetchAPI.js';
-
+import keyboardInited, { toggleKeyboard } from './modules/keyboardInit.js';
 
 let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
 let nextPage = 0;
@@ -100,10 +99,10 @@ async function pageSearch(search, page) {
 
 pageSearch(searchString, 1); // initial search
 
-
 // Event listeners:
 searchBtn.addEventListener('click', (event) => {
     event.preventDefault();
+    if (keyboardInited.keyboard.active) toggleKeyboard();
     clearElement(alertArea);
     searchString = String(input.value);
     pageSearch(searchString, 1);
@@ -111,6 +110,7 @@ searchBtn.addEventListener('click', (event) => {
 document.addEventListener('keydown', (event) => {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
+        if (keyboardInited.keyboard.active) toggleKeyboard();
         clearElement(alertArea);
         searchString = String(input.value);
         pageSearch(searchString, 1);
