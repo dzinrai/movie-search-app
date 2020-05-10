@@ -21,18 +21,21 @@ const alertArea = document.querySelector('.alert__warnings');
 const loadingBar = document.querySelector('.loading__bar');
 input.value = '';
 input.focus();
+let searchString = 'batman';
 
 function loadbarStart(bar) {
     for (let i = 0; i < 30; i += 1) create('div', 'bar_peace', null, bar);
     bar.classList.add('start');
     bar.classList.remove('hidden');
 }
+
 function loadbarStop(bar) {
     for (let i = 0; i < 30; i += 1) clearElement(bar);
     bar.classList.remove('start');
     bar.classList.add('hidden');
 }
-function afterLoad(error = null, updateSlider = true, page, search) {
+
+function afterSearch(error = null, updateSlider = true, page, search) {
     loadbarStop(loadingBar);
     if (error === 'Request limit reached!') {
         showAlert('Sorry, we have reached today\'s limit of API');
@@ -43,12 +46,33 @@ function afterLoad(error = null, updateSlider = true, page, search) {
     }
     if (updateSlider) mySwiper.updateSlides();
 }
-let searchString = 'batman';
 
-async function loadSearch(search, page) {
-    console.log(`loadSearch(${search}, ${page})`);
-    let loaded = 0;
-    let url = '';
+function setUrl(params) {
+    let url;
+    if (params.searchLine && params.page) url = `https://www.omdbapi.com/?s=${params.searchLine}&page=${params.page}&apikey=4679477d`;
+    if (params.imdbID) url = `https://www.omdbapi.com/?i=${params.imdbID}&plot=full&apikey=4679477d`;
+    return url;
+}
+
+function updateSlides(slides) {
+    let updated = 0;
+    movieSlides.push(slides);
+    slides.forEach(async (slide) => {
+        const { imdbID } = slide;
+        const urlId = setUrl({ imdbID });
+        const movieData = await fetchAPI(urlId, imdbID);
+        if (movieData) {
+            slide.updateDescription(movieData);
+            updated += 1;
+            if (updated === slides.length) afterSearch(null, false);
+        } else if (typeof movieData === 'string') {
+            const error = movieData;
+            afterSearch(error, false);
+        }
+    });
+}
+
+async function pageSearch(search, page) {
     if (page === 1) {
         movieSlides = [];
         nextPage = 1;
@@ -56,40 +80,25 @@ async function loadSearch(search, page) {
     loadbarStart(loadingBar);
     const searchLine = await readyForSearch(search);
     if (!searchLine || (typeof searchLine === 'object' && searchLine.code)) {
-        afterLoad(null, false, 0);
+        afterSearch(null, false, 0);
         return;
     }
-    //
     const key = `${searchLine}__page${page}`;
-    url = `https://www.omdbapi.com/?s=${searchLine}&page=${page}&apikey=4679477d`;
-    const data = await fetchAPI(url, key);
-    // Errors in response:
+    const urlPage = setUrl({ searchLine, page });
+    const data = await fetchAPI(urlPage, key);
     if (!data || data.length === 0 || typeof data === 'string') {
         const error = data;
         if (page === 1) soloTitle(searchLine, alertArea);
-        afterLoad(error, false, page, searchLine);
+        afterSearch(error, false, page, searchLine);
         return;
     }
     if (page === 1) mySwiper.removeAllSlides();
-    const slides = createSlides(data, page);
+    const slides = createSlides(data);
     nextPage = page + 1;
-    movieSlides.push(slides);
-    slides.forEach(async (slide) => {
-        const { imdbID } = slide;
-        url = `https://www.omdbapi.com/?i=${imdbID}&plot=full&apikey=4679477d`;
-        const movieData = await fetchAPI(url, imdbID);
-        if (movieData) {
-            slide.updateDescription(movieData);
-            loaded += 1;
-            if (loaded === slides.length) afterLoad(null, false, page);
-        } else if (typeof movieData === 'string') {
-            const error = movieData;
-            afterLoad(error, false);
-        }
-    });
+    updateSlides(slides);
 }
 
-loadSearch(searchString, 1); // initial load
+pageSearch(searchString, 1); // initial search
 
 
 // Event listeners:
@@ -97,19 +106,19 @@ searchBtn.addEventListener('click', (event) => {
     event.preventDefault();
     clearElement(alertArea);
     searchString = String(input.value);
-    loadSearch(searchString, 1);
+    pageSearch(searchString, 1);
 });
 document.addEventListener('keydown', (event) => {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
         event.preventDefault();
         clearElement(alertArea);
         searchString = String(input.value);
-        loadSearch(searchString, 1);
+        pageSearch(searchString, 1);
     }
 });
 mySwiper.on('slideChange', () => {
     if (mySwiper.slides.length === 0) {
-        loadSearch(searchString, 1);
+        pageSearch(searchString, 1);
         return;
     }
     if (movieSlides.length < 1) return;
@@ -118,10 +127,9 @@ mySwiper.on('slideChange', () => {
         if (pageOfSlides) loadedSlides += pageOfSlides.length;
     });
     if (mySwiper.activeIndex >= loadedSlides - 8 && movieSlides.slice(-1)[0].length === 10) {
-        loadSearch(searchString, nextPage);
+        pageSearch(searchString, nextPage);
     }
 });
-
 clearInputBtn.addEventListener('click', (e) => {
     e.preventDefault();
     input.value = '';
