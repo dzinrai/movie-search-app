@@ -13,6 +13,7 @@ import keyboardInited, { toggleKeyboard } from './modules/keyboardInit.js';
 
 let movieSlides = []; // [ [...page1], [...page2] ... [...pageN] ]
 let nextPage = 0;
+let clearing = false;
 const input = document.querySelector('#searchInput');
 const clearInputBtn = document.querySelector('.clear-search__btn');
 const searchBtn = document.querySelector('.search__btn');
@@ -73,7 +74,7 @@ function updateSlides(slides) {
 
 async function pageSearch(search, page) {
     if (page === 1) {
-        movieSlides = [];
+        movieSlides.length = 0;
         nextPage = 1;
     }
     loadbarStart(loadingBar);
@@ -91,7 +92,11 @@ async function pageSearch(search, page) {
         afterSearch(error, false, page, searchLine);
         return;
     }
-    if (page === 1) mySwiper.removeAllSlides();
+    if (page === 1) {
+        clearing = true;
+        mySwiper.removeAllSlides();
+        clearing = false;
+    }
     const slides = createSlides(data);
     nextPage = page + 1;
     updateSlides(slides);
@@ -116,17 +121,14 @@ document.addEventListener('keydown', (event) => {
         pageSearch(searchString, 1);
     }
 });
+
 mySwiper.on('slideChange', () => {
-    if (mySwiper.slides.length === 0) {
-        pageSearch(searchString, 1);
-        return;
-    }
-    if (movieSlides.length < 1) return;
     let loadedSlides = 0;
+    if (movieSlides.length < 1) return;
     movieSlides.forEach((pageOfSlides) => {
         if (pageOfSlides) loadedSlides += pageOfSlides.length;
     });
-    if (mySwiper.activeIndex >= loadedSlides - 8 && movieSlides.slice(-1)[0].length === 10) {
+    if (mySwiper.activeIndex >= loadedSlides - 8 && movieSlides.slice(-1)[0].length === 10 && !clearing) {
         pageSearch(searchString, nextPage);
     }
 });
