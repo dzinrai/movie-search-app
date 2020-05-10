@@ -4,10 +4,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = (env, options) => {
     const isProduction = options.mode === 'production';
-    // './src/sass/style.scss'
     const config = {
         mode: isProduction ? 'production' : 'development',
         devtool: isProduction ? 'none' : 'source-map',
@@ -23,11 +23,11 @@ module.exports = (env, options) => {
                     test: /\.m?js$/,
                     exclude: /node_modules/,
                     use: {
-                    loader: 'babel-loader',
-                    options: {
-                      presets: ['@babel/preset-env']
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
                     }
-                  }
                 }, {
                     test: /\.scss|css$/,
                     use: [
@@ -89,6 +89,7 @@ module.exports = (env, options) => {
             new CopyWebpackPlugin([
                 { from: './node_modules/@fortawesome/fontawesome-free/webfonts', to: './webfonts'}
             ]),
+            new FaviconsWebpackPlugin('./src/img/logo.svg'),
         ]
     }
 

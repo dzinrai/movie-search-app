@@ -21,6 +21,7 @@ export default function setTheme(theme_) {
     [...Object.keys(theme_)].slice(1).forEach((color) => {
         root.style.setProperty(color, theme_[color]);
     });
+    return theme_;
 }
 
 setTheme(theme);
